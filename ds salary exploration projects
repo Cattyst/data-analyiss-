@@ -10,6 +10,8 @@ import numpy as np
 import pandas as pd
 import matplotlib as mpl
 
+#linke to the dataset
+https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries
 
 #change directory 
 path = 'C:\王琰\求职\python\data wrangling project'
