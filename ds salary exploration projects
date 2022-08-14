@@ -1,1 +1,58 @@
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
+
+This is a temporary script file.
+"""
+# Import the os module
+import os
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+
+
+#change directory 
+path = 'C:\王琰\求职\python\data wrangling project'
+os.chdir(path)
+
+
+#read file and exploration
+df = pd.read_csv('ds_salaries.csv',index_col= 0)
+
+df.head(5)
+df.describe()
+
+
+
+#data clearing
+df.info()
+df.dropna()
+
+
+#answer questions
+###does the average salary go up by year? how does it perform in different region?
+a = df.groupby(['work_year']).salary_in_usd.mean().sort_index()
+a
+
+b = df.groupby(['work_year','company_location']).salary_in_usd.agg(['mean','max','min']).sort_index()
+b
+b.to_excel('b.xlsx') #followed by Tableau for visualization
+
+
+###at what expreince level in US and FR do they have the highest salary?
+c = df.loc[df.company_location.isin(['FR','US'])].groupby(['experience_level','company_location']).salary_in_usd.mean().sort_values(ascending = False)
+c
+
+
+###where does these people work? do they work remotely?
+###when people do not work at the place the company locates, do they work remotely? how large of these peopel?
+d = df.loc[df['company_location'] != df['employee_residence']]
+
+d
+d[['work_year','company_location','employee_residence','remote_ratio']]
+
+
+###is there any company offer better salary than the average?
+avg = df.salary_in_usd.mean()
+df.loc[df['salary_in_usd']>=avg][['salary_in_usd','company_location']].groupby('company_location').size()
 
